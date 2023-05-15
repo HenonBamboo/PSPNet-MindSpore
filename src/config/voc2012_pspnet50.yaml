@@ -1,0 +1,65 @@
+DATA:
+  art_root_path: /cache/data
+  data_root: ./data/VOC2012/TrainVal/
+  art_data_root: /cache/data/TrainVal/
+  art_data_root_zs: /cache/data/VOC2012/TrainVal/
+
+  train_list: ./data/VOC2012/TrainVal/train_aug.txt
+  art_train_list: /cache/data/TrainVal/train_aug.txt
+  art_train_list_zs: /cache/data/VOC2012/TrainVal/train_aug.txt
+
+  val_list: ./data/VOC2012/TrainVal/val.txt
+  art_val_list: /cache/data/TrainVal/val.txt
+  art_val_list_zs: /cache/data/VOC2012/TrainVal/val.txt
+
+  classes: 21
+  prefix: voc
+  save_dir: ./checkpoints/
+  backbone: resnet50
+  pretrain_path: ./data/weight_resnet50_v2.ckpt
+  art_pretrain_path: /cache/data/weight_resnet50_v2.ckpt
+
+  ckpt: ./checkpoints/weight_train_epoch_50.ckpt  # for eval
+  art_ckpt: /cache/data/weight_train_epoch_50.ckpt
+#  art_ckpt: /cache/data/best_model.ckpt
+
+TRAIN:
+  arch: psp
+  train_h: 473
+  train_w: 473
+  scale_min: 0.5  # minimum random scale
+  scale_max: 2.0  # maximum random scale
+  rotate_min: -10  # minimum random rotate
+  rotate_max: 10  # maximum random rotate
+  ignore_label: 255
+  aux_weight: 0.4
+  data_name:
+  batch_size: 16  # batch size for training
+  batch_size_val: 16  # batch size for validation during training, memory and speed tradeoff
+  base_lr: 0.01
+  epochs: 50
+  start_epoch: 0
+  power: 0.9
+  momentum: 0.9
+  weight_decay: 0.0001
+
+
+TEST:
+  test_list: ./data/VOC2012/TrainVal/val.txt
+  split: val  # split in [train, val and test]
+  base_size: 512  # based size for scaling
+  test_h: 473
+  test_w: 473
+  scales: [1.0]  # evaluation scales, ms as [0.5, 0.75, 1.0, 1.25, 1.5, 1.75]
+  index_start: 0  # evaluation start index in list
+  index_step: 0  # evaluation step index in list, 0 means to end
+  result_path: /cache/output/
+
+  color_txt: ./data/VOC2012/TrainVal/voc2012_colors.txt
+  art_color_txt: /cache/data/TrainVal/voc2012_colors.txt
+  art_color_txt_zs: /cache/data/VOC2012/TrainVal/voc2012_colors.txt
+
+  name_txt: ./data/VOC2012/TrainVal/voc2012_names.txt
+  art_name_txt: /cache/data/TrainVal/voc2012_names.txt
+  art_name_txt_zs: /cache/data/VOC2012/TrainVal/voc2012_names.txt
+  device_target: Ascend
